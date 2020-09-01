@@ -1,8 +1,8 @@
 import React from "react"
-import "./App.css"
+import "./tailwind/index.out.css"
 
 function App() {
-    return <div className="App"></div>
+    return <div className="App bg-red-500">Hello</div>
 }
 
 export default App
