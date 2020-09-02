@@ -2,6 +2,8 @@ import React, { FC } from "react"
 import { useSelector } from "react-redux"
 import { selectUser } from "app/auth/store/authSlice"
 import Button from "app/ui/components/Button"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faSignOutAlt, faSignInAlt } from "@fortawesome/free-solid-svg-icons"
 import { signIn, signOut } from "api/auth.service"
 
 const AuthHeader: FC<{}> = () => {
@@ -30,7 +32,7 @@ const AuthHeader: FC<{}> = () => {
             )}
 
             <Button variant={buttonVariant} onClick={handleAuthAction}>
-                {user ? "X" : "Sign In"}
+                <FontAwesomeIcon icon={user ? faSignOutAlt : faSignInAlt} />
             </Button>
         </div>
     )

@@ -18,7 +18,7 @@ const Button: FC<{ variant: UIVariant; className?: string; [x: string]: any }> =
     children,
     ...rest
 }) => {
-    const defaultClasses = "px-6 py-2 rounded"
+    const defaultClasses = "px-4 py-2 rounded"
     const variantClasses = variants[variant]
 
     console.log("rest", rest)
