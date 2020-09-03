@@ -1,7 +1,7 @@
 import React, { FC } from "react"
 import { useSelector } from "react-redux"
-import { selectUser } from "app/auth/store/authSlice"
-import Button from "app/ui/components/Button"
+import { selectUser } from "features/auth/store/authSlice"
+import Button from "features/ui/components/Button"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faSignOutAlt, faSignInAlt } from "@fortawesome/free-solid-svg-icons"
 import { signIn, signOut } from "api/auth.service"
@@ -20,8 +20,6 @@ const AuthHeader: FC<{}> = () => {
                   .map((name) => name[0].toUpperCase())
                   .join("")
             : null
-
-    console.log("initials", initials)
 
     return (
         <div className="flex flex-row items-center">

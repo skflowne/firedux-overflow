@@ -1,6 +1,8 @@
 import { combineReducers } from "redux"
-import authReducer from "app/auth/store/authSlice"
+import authReducer from "features/auth/store/authSlice"
+import questionsReducer from "features/questions/store/questionsSlice"
 
 export default combineReducers({
     auth: authReducer,
+    questions: questionsReducer,
 })

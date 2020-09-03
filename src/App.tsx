@@ -1,8 +1,10 @@
 import React, { useEffect } from "react"
 import "./tailwind/index.out.css"
 import { useSelector, useDispatch } from "react-redux"
-import { selectReady, watchAuth } from "app/auth/store/authSlice"
-import Header from "app/ui/components/Header"
+import { selectReady, watchAuth } from "features/auth/store/authSlice"
+import Header from "app/Header"
+import QuestionCreate from "features/questions/components/QuestionCreate"
+import QuestionList from "features/questions/components/QuestionList"
 
 function App() {
     const dispatch = useDispatch()
@@ -16,6 +18,8 @@ function App() {
     return authReady ? (
         <div className="App">
             <Header />
+            <QuestionCreate />
+            <QuestionList />
         </div>
     ) : (
         <div>Loading App...</div>

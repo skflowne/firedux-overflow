@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 import * as authService from "api/auth.service"
 import { User } from "firebase"
-import { AppThunk, RootState } from "../../store"
+import { AppThunk, RootState } from "../../../app/store"
 
 export interface AppUser {
     uid: string

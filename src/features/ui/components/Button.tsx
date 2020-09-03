@@ -1,8 +1,5 @@
 import React, { FC } from "react"
-
-type UIVariant = "danger" | "warning" | "info" | "success" | "default"
-
-type UIVariants = Record<UIVariant, string>
+import type { UIVariant, UIVariants } from "features/ui/components/types"
 
 const variants: UIVariants = {
     "default": "text-gray-100 bg-gray-500 hover:text-white hover:bg-gray-400",
@@ -21,10 +18,11 @@ const Button: FC<{ variant: UIVariant; className?: string; [x: string]: any }> =
     const defaultClasses = "px-4 py-2 rounded"
     const variantClasses = variants[variant]
 
-    console.log("rest", rest)
-
     return (
-        <button className={`${defaultClasses} ${variantClasses} ${className}`} {...rest}>
+        <button
+            className={`${rest.disabled ? "bg-gray-400 text-gray-500" : variantClasses} ${defaultClasses} ${className}`}
+            {...rest}
+        >
             {children}
         </button>
     )

@@ -1,5 +1,5 @@
 import React, { FC } from "react"
-import AuthHeader from "app/auth/components/AuthHeader"
+import AuthHeader from "features/auth/components/AuthHeader"
 
 const Header: FC<{}> = () => {
     return (
