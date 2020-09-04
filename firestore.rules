@@ -15,6 +15,11 @@ service cloud.firestore {
           allow read;
           allow write: if isOwner();
       }
+
+      match /tags/{tagId} {
+          allow read;
+          allow create: if isAuthenticated()
+      }
     }
   }
 }

@@ -1,5 +1,6 @@
 import { auth, firestore } from "firebase"
 import Shapor from "lib/validation/Shapor"
+import { Tag } from "./tags.service"
 
 const COLLECTION_NAME = "questions"
 
@@ -13,6 +14,7 @@ export interface Question {
 export interface QuestionPayload {
     title: string
     description: string
+    tags: Tag[] | string[]
 }
 
 export const QuestionShapor = new Shapor().object({
@@ -33,7 +35,6 @@ export const getQuestions = async (): Promise<Question[]> => {
     let questions: Question[] = []
     snapshot.forEach((doc) => {
         const { title, description, userId } = doc.data()
-        console.log("question", doc.data())
         questions.push({
             id: doc.id,
             title,
@@ -45,17 +46,12 @@ export const getQuestions = async (): Promise<Question[]> => {
 }
 
 export const createQuestion = async (payload: QuestionPayload): Promise<Question> => {
-    console.log("payload", payload, QuestionShapor)
-
     const isValidPayload = QuestionShapor.getValidationResult(payload)
     if (isValidPayload.error) {
-        console.log("error path", isValidPayload.path)
         throw new Error(isValidPayload.error)
     }
 
     const userId = auth().currentUser?.uid
-
-    console.log("current user uid", userId)
 
     if (!userId) {
         throw new Error("Can't create question without being authenticated")

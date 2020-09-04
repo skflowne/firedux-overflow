@@ -1,4 +1,4 @@
-import React, { FC, useState, FormEvent, useEffect } from "react"
+import React, { FC, useState, FormEvent, useEffect, useCallback } from "react"
 
 import { QuestionPayload, QuestionShapor } from "api/questions.service"
 
@@ -6,11 +6,16 @@ import Button from "features/ui/components/Button"
 import Alert from "features/ui/components/Alert"
 import { useDispatch, useSelector } from "react-redux"
 import { postQuestion, selectCreating } from "../store/questionsSlice"
+import TagInput from "features/tags/components/TagInput"
+import { selectMatchingTags, selectMatchingState, fetchMatchingTags } from "features/tags/store/tagsSlice"
 
 const QuestionCreate: FC<{}> = () => {
     const dispatch = useDispatch()
     const creatingState = useSelector(selectCreating)
-    const [question, setQuestion] = useState<QuestionPayload>({ title: "", description: "" })
+    const [question, setQuestion] = useState<QuestionPayload>({ title: "", description: "", tags: [] })
+
+    const matchingTags = useSelector(selectMatchingTags)
+    const matching = useSelector(selectMatchingState)
 
     const [touched, setTouched] = useState<Record<string, boolean>>({
         title: false,
@@ -20,7 +25,7 @@ const QuestionCreate: FC<{}> = () => {
     useEffect(() => {
         if (creatingState.error || creatingState.loading) return
 
-        setQuestion({ title: "", description: "" })
+        setQuestion({ title: "", description: "", tags: [] })
         setTouched({ title: false, description: false })
     }, [creatingState])
 
@@ -46,6 +51,24 @@ const QuestionCreate: FC<{}> = () => {
             }
         })
     }
+
+    const handleTagInputChanged = (tag: string) => {
+        if (tag.trim().length > 0) {
+            dispatch(fetchMatchingTags(tag))
+        }
+    }
+
+    const handleTagsChanged = useCallback(
+        (tags: string[]) => {
+            setQuestion((question) => {
+                return {
+                    ...question,
+                    tags,
+                }
+            })
+        },
+        [setQuestion]
+    )
 
     const isValidQuestion = QuestionShapor.getValidationResult(question)
 
@@ -77,6 +100,14 @@ const QuestionCreate: FC<{}> = () => {
                     value={question.description}
                     onChange={handleChange}
                 ></textarea>
+                <TagInput
+                    suggestionsState={matching}
+                    suggestedTags={matchingTags.map((tag) => tag.name)}
+                    onNewTagInputChanged={handleTagInputChanged}
+                    onTagsChanged={handleTagsChanged}
+                />
+
+                {matching.error && <Alert variant="danger">{matching.error.message}</Alert>}
                 <Button variant="info" className="my-2" type="submit" disabled={isValidQuestion.valid === false}>
                     Ask question
                 </Button>
